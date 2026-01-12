@@ -1,347 +1,278 @@
-/* --- VARIABLES & COLORES VIBRANTES --- */
+/* =========================================
+   1. BASE (Adaptado de tu código)
+   ========================================= */
 :root {
-    /* Paleta Alegre */
-    --primary-color: #ff6b6b;      /* Rojo Coral vibrante */
-    --primary-hover: #ff5252;
-    --secondary-color: #4ecdc4;    /* Turquesa */
-    --accent-color: #ffe66d;       /* Amarillo suave para detalles */
-    --dark-text: #2d3436;
-    --light-text: #ffffff;
-    --bg-color: #f7f9fc;           /* Fondo muy claro azulado */
-    --card-bg: #ffffff;
-    
-    /* Bordes y Sombras */
-    --border-radius: 12px;
-    --shadow-soft: 0 10px 20px rgba(0,0,0,0.05);
-    --shadow-hover: 0 15px 30px rgba(0,0,0,0.1);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    font-family: 'Poppins', 'Segoe UI', sans-serif; /* Tipografía más moderna si está disponible */
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-color);
-    color: var(--dark-text);
+  margin: 0;
+  padding: 0;
+  display: block; /* CORRECCIÓN IMPORTANTE: Quitamos flex center para permitir el diseño dashboard */
+  min-width: 320px;
+  min-height: 100vh;
 }
 
-/* --- LAYOUT PRINCIPAL --- */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+#app-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-/* Header con Degradado Alegre */
-header {
-    background: linear-gradient(135deg, var(--primary-color), #ff8e8e);
-    color: var(--light-text);
-    padding: 1.5rem 0;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-soft);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+/* =========================================
+   2. ELEMENTOS GENERALES
+   ========================================= */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
 }
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-/* --- MENÚ DE NAVEGACIÓN --- */
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-    margin: 0;
-    padding: 0;
-}
-
-nav a {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    padding: 8px 15px;
-    border-radius: 20px;
-}
-
-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    color: white;
-}
-
-/* --- FORMULARIO BONITO Y NO "PETADO" --- */
-#form-container {
-    background-color: var(--card-bg);
-    padding: 2.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
-    max-width: 700px;
-    margin: 0 auto 3rem auto;
-    border-top: 6px solid var(--secondary-color); /* Toque de color arriba */
-    position: relative;
-}
-
-#form-container h3 {
-    text-align: center;
-    color: var(--primary-color);
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-}
-
-.form-group {
-    margin-bottom: 1.2rem;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--dark-text);
-}
-
-/* Inputs estilizados */
-input[type="text"],
-input[type="number"],
-select,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #eef2f7;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-    background-color: #fcfcfc;
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: var(--secondary-color);
-    outline: none;
-    background-color: #fff;
-}
-
-/* Radio buttons más visibles */
-.radio-group div {
-    display: flex;
-    gap: 20px;
-    background: #fcfcfc;
-    padding: 10px;
-    border-radius: 8px;
-    border: 2px solid #eef2f7;
-}
-
-.form-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 2rem;
+a:hover {
+  color: #535bf2;
 }
 
 button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 50px; /* Botones redonditos */
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  color: white;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: transparent;
 }
 
-button[type="submit"] {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+/* Inputs y Formularios */
+input:invalid, select:invalid {
+  border: 2px dashed red;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #3b3b3b;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-button[type="submit"]:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-}
-
-button[type="reset"] {
-    background-color: #dfe6e9;
-    color: var(--dark-text);
-}
-
-/* --- REJILLA DE 3 LIBROS POR FILA --- */
-.book-grid {
+/* =========================================
+   3. LAYOUT DASHBOARD (Estructura)
+   ========================================= */
+.main-layout {
     display: grid;
-    /* Aquí forzamos 3 columnas de igual tamaño */
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 30px;
-    padding: 20px 0;
+    /* Sidebar izquierda fija (300px) - Contenido derecha flexible */
+    grid-template-columns: 300px 1fr; 
+    gap: 2rem;
+    align-items: start;
+    margin-top: 20px;
 }
 
-/* Responsividad: Si la pantalla es pequeña, baja a 2 o 1 columna para que no se "pete" */
-@media (max-width: 900px) {
-    .book-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (max-width: 600px) {
-    .book-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- CARDS (TARJETAS) --- */
-.card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: 25px;
-    box-shadow: var(--shadow-soft);
-    transition: all 0.3s ease;
+/* Sidebar */
+.sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid #f0f0f0;
-    position: relative;
+    gap: 20px;
+}
+
+/* Paneles (Carrito, Formulario) */
+.panel {
+    background-color: #1a1a1a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+.sticky-panel { position: sticky; top: 20px; }
+
+/* Totales */
+.totales-footer {
+    background-color: #646cff; /* Usamos el color de acento del tema */
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+/* Formulario Wrapper */
+#form-wrapper {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* =========================================
+   4. REJILLA DE LIBROS (Lo que pediste)
+   ========================================= */
+.books-grid {
+    display: grid;
+    /* FORZAMOS 3 COLUMNAS MIENTRAS HAYA ESPACIO */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+}
+
+/* =========================================
+   5. TARJETA DE LIBRO (.book-card)
+   ========================================= */
+/* Usamos tu estilo 'cadetblue' */
+.book-card {
+    background-color: cadetblue; 
+    color: white;
+    border-radius: 8px;
     overflow: hidden;
-}
-
-/* Decoración superior en la card */
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-hover);
-}
-
-.card h3 {
-    margin-top: 10px;
-    color: var(--dark-text);
-    font-size: 1.4rem;
-}
-
-.card p {
-    color: #636e72;
-    margin: 5px 0;
-}
-
-.card strong {
-    color: var(--primary-color);
-}
-
-/* Precio destacado */
-.price-tag {
-    font-size: 1.5rem;
-    color: var(--secondary-color);
-    font-weight: 800;
-    margin: 15px 0;
-}
-
-/* --- BOTONES EN CARDS --- */
-.card-buttons {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: auto; /* Empuja los botones al fondo */
-    padding-top: 15px;
-    border-top: 1px dashed #eef2f7;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-.btn-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
+.book-card:hover {
+    transform: translateY(-5px);
+    filter: drop-shadow(0 0 1em #646cffaa); /* Efecto hover del tema */
+}
+
+/* Imagen */
+.book-cover {
+    height: 250px;
+    background-color: rgba(0,0,0,0.2); 
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: background 0.3s;
+    padding: 10px;
+}
+.book-cover img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain; /* Libro entero */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
 }
 
-.btn-delete { background: #ffebeb; color: #ff6b6b; }
-.btn-delete:hover { background: #ff6b6b; color: white; }
-
-.btn-edit { background: #e8f8f5; color: #4ecdc4; } /* Deshabilitado visualmente si aplicas disabled */
-.btn-cart { background: #fff8e1; color: #ffca28; }
-
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: #f1f2f6 !important;
-    color: #b2bec3 !important;
+/* Info */
+.book-info {
+    padding: 15px;
+    flex-grow: 1;
 }
+.book-info h3 { font-size: 1.2em; margin: 0 0 10px 0; color: white; text-align: left; }
+.meta { margin: 5px 0; font-size: 0.9em; text-align: left; }
+.price { font-size: 1.5em; font-weight: bold; text-align: right; margin-top: 15px; }
 
-/* --- TOTALES --- */
-.totales-bar {
-    background: white;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
+/* Botones Acción */
+.actions {
+    padding: 10px;
+    background-color: rgba(0,0,0,0.1);
     display: flex;
     justify-content: flex-end;
-    gap: 30px;
-    margin-top: 30px;
-    font-size: 1.2rem;
-    border-left: 5px solid var(--accent-color);
+    gap: 8px;
 }
-
-/* --- ALERTAS --- */
-.messages-container {
-    position: fixed; /* Flotante para que no mueva el layout */
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    width: 300px;
-}
-
-.alert {
-    background: white;
-    border-left: 5px solid var(--primary-color);
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-radius: 4px;
+.btn-icon {
+    background-color: #242424;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    animation: slideIn 0.3s ease;
+    justify-content: center;
 }
 
-.btn-close {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #aaa;
+/* =========================================
+   6. RESPONSIVE (Tus media queries adaptadas)
+   ========================================= */
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    gap: 2%;
+  }
+  .main-layout {
+      grid-template-columns: 250px 1fr;
+  }
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 3rem;
-    color: #b2bec3;
-    font-size: 0.9rem;
+/* Móvil */
+@media (max-width: 768px) {
+  .books-grid {
+    grid-template-columns: 1fr; /* 1 columna */
+    gap: 15px;
+  }
+  .main-layout {
+      grid-template-columns: 1fr; /* Sidebar pasa arriba/abajo */
+  }
+  .sidebar { margin-bottom: 20px; }
 }
 
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+/* =========================================
+   7. MODO CLARO (Prefers-Color-Scheme)
+   ========================================= */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  button {
+    background-color: #f9f9f9;
+    color: #213547;
+    border: 1px solid #ccc;
+  }
+  .panel, #form-wrapper, header {
+      background-color: #f9f9f9;
+      border-color: #ccc;
+  }
+  input, select, textarea {
+      background-color: #fff;
+      color: #213547;
+      border-color: #ccc;
+  }
+  .btn-icon {
+      background-color: white;
+      color: #333;
+  }
+  .fail { background-color: #ffcccc; color: #cc0000; }
+  .success { background-color: #ccffcc; color: #006600; }
 }
+
+/* Alertas y Header */
+.messages-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+.alert { padding: 10px; margin-bottom: 5px; border-radius: 4px; display: flex; justify-content: space-between; gap: 10px; background: white; color: #333; border: 1px solid #ccc; }
+.header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.5rem; }
+nav ul { display: flex; gap: 20px; list-style: none; padding: 0; }

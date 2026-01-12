@@ -1,16 +1,15 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useDataStore } from './stores/datos.js'
+import { store } from './stores/datos.js'
+
 import AppMenu from './components/AppMenu.vue'
 import AppMessages from './components/AppMessages.vue'
-import BookForm from './components/BookForm.vue' 
+import BookForm from './components/BookForm.vue'
 import BooksList from './components/BooksList.vue'
-import BooksCart from './components/BooksCart.vue' 
-import AppAbout from './components/AppAbout.vue' 
+import AppAbout from './components/AppAbout.vue'
+import logo from '/logoBatoi.png' 
 
-import logo from '../public/logoBatoi.png' 
-
-const store = useDataStore()
+// El componente BooksCart se importa pero NO se usa en el template por ahora
 
 onMounted(() => {
     store.fetchBooks()
@@ -19,39 +18,128 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container">
-    <header>
-       <div class="header-brand">
-          <img :src="logo" alt="Logo Batoi" class="logo" width="50" style="margin-right: 1rem;"/>
-          <h1>BatoiBooks</h1>
+  <div id="app-wrapper">
+    <header class="main-header">
+       <div class="header-content">
+          <div class="brand">
+             <img :src="logo" alt="BatoiBooks" width="40"/>
+             <h1>BatoiBooks</h1>
+          </div>
+          <AppMenu />
        </div>
-       <AppMenu />
     </header>
     
     <AppMessages />
 
-    <main>
-      <section>
-          <BooksList />
-       </section>
-       <section style="margin-bottom: 2rem;">
-          <BookForm />
-       </section>
+    <div class="main-container">
+        
+        <main class="content-area">
+            
+            <section class="books-section">
+                <BooksList />
+            </section>
+            
+            <div class="totales-bar">
+                <span>Total Libros: <strong>{{ store.totalLibros }}</strong></span>
+                <span>Importe Total: <strong>{{ store.importeTotal }} €</strong></span>
+            </div>
 
-       
-       
+            <section class="form-section">
+                <BookForm />
+            </section>
 
-       <section style="margin-top: 3rem;">
-          <AppAbout />
-       </section>
-    </main>
+        </main>
+    </div>
 
-    <footer>Joan Brotons</footer>
+    <footer>
+        <AppAbout />
+    </footer>
   </div>
 </template>
 
 <style>
-/* Importamos tus estilos globales */
-@import './assets/style.css';
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #f8f9fa; /* Fondo gris muy claro elegante */
+    color: #333;
+    line-height: 1.6;
+}
+* {
+    box-sizing: border-box;
+}
+</style>
+
+<style scoped>
+#app-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.main-header {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.8rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.brand h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+
+/* Contenedor Principal */
+.main-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+    width: 100%;
+    flex: 1; /* Empuja el footer abajo */
+}
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Totales */
+.totales-bar {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1.5rem 2rem;
+    text-align: right;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    background: white;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+}
 </style>

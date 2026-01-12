@@ -2262,15 +2262,14 @@
       "userId": 2
     },
     {
-      "id": "02dc",
-      "moduleCode": "0011",
-      "publisher": "Espiga",
-      "price": 25,
-      "pages": 500,
-      "status": "bad",
-      "soldDate": "2025-10-31",
-      "comments": "Molt malo",
-      "userId": 2
+      "id": "f7d1",
+      "moduleCode": "1349",
+      "publisher": "hola",
+      "price": 10,
+      "pages": 10,
+      "status": "good",
+      "comments": "",
+      "photo": ""
     }
   ]
 }
