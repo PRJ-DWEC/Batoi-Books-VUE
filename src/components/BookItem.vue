@@ -32,7 +32,15 @@ const resolveImage = (book) => {
             <div class="details">
                 <p><strong>Editorial:</strong> {{ book.publisher }}</p>
                 <p><strong>Páginas:</strong> {{ book.pages }} | <strong>Estado:</strong> {{ book.status }}</p>
-                <p v-if="book.comments" class="comments">"{{ book.comments }}"</p>
+                
+                <p class="sales-status" :class="book.soldDate ? 'status-sold' : 'status-available'">
+                    <strong>Venta:</strong> 
+                    {{ book.soldDate ? `Vendido el ${book.soldDate}` : 'Disponible' }}
+                </p>
+
+                <p v-if="book.comments" class="comments">
+                    <strong>Comentarios:</strong> {{ book.comments }}
+                </p>
             </div>
 
             <div class="price">{{ book.price }} €</div>
@@ -74,7 +82,7 @@ const resolveImage = (book) => {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07)); /* Sombra suave al libro */
+    filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07));
 }
 
 .info {
@@ -104,16 +112,33 @@ h3 {
 }
 
 .details p {
-    margin: 4px 0;
+    margin: 6px 0; /* Un poco más de espacio entre líneas */
     font-size: 0.9rem;
     color: #4b5563;
 }
 
+/* Estilos para el estado de venta */
+.sales-status {
+    padding: 2px 0;
+}
+.status-available {
+    color: #059669; /* Verde */
+}
+.status-sold {
+    color: #d97706; /* Naranja/Ámbar */
+    font-weight: 500;
+}
+
 .comments {
-    font-style: italic;
-    color: #9ca3af;
+    /* Quitamos el italic general para que "Comentarios:" se lea bien, 
+       pero podemos poner el texto en cursiva si quieres, o dejarlo normal */
+    color: #6b7280;
     margin-top: 8px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    background: #f9fafb;
+    padding: 8px;
+    border-radius: 4px;
+    border-left: 3px solid #e5e7eb;
 }
 
 .price {

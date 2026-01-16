@@ -1,15 +1,11 @@
 <script setup>
 import { onMounted } from 'vue'
 import { store } from './stores/datos.js'
-
 import AppMenu from './components/AppMenu.vue'
 import AppMessages from './components/AppMessages.vue'
-import BookForm from './components/BookForm.vue'
-import BooksList from './components/BooksList.vue'
-import AppAbout from './components/AppAbout.vue'
+// Eliminamos la importación de AppAbout porque ya no va en el footer
+// import AppAbout from './components/AppAbout.vue' 
 import logo from '/logoBatoi.png' 
-
-// El componente BooksCart se importa pero NO se usa en el template por ahora
 
 onMounted(() => {
     store.fetchBooks()
@@ -32,27 +28,13 @@ onMounted(() => {
     <AppMessages />
 
     <div class="main-container">
-        
         <main class="content-area">
-            
-            <section class="books-section">
-                <BooksList />
-            </section>
-            
-            <div class="totales-bar">
-                <span>Total Libros: <strong>{{ store.totalLibros }}</strong></span>
-                <span>Importe Total: <strong>{{ store.importeTotal }} €</strong></span>
-            </div>
-
-            <section class="form-section">
-                <BookForm />
-            </section>
-
+            <router-view></router-view>
         </main>
     </div>
 
     <footer>
-        <AppAbout />
+        <p>BatoiBooks Vue - Desarrollado por <strong>Joan Brotons</strong></p>
     </footer>
   </div>
 </template>

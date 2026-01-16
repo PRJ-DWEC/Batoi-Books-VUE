@@ -1,15 +1,22 @@
 <script setup>
 import { store } from '../stores/datos.js'
 import BookItem from './BookItem.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const eliminar = (book) => {
+    // ... (Tu código de eliminar existente)
     const mod = store.getModuleByCode(book.moduleCode)
     const nombreModulo = mod ? mod.cliteral : 'Desconocido'
 
     if (confirm(`¿Va a borrar el libro con ID: ${book.id} del módulo: ${nombreModulo}?`)) {
         store.deleteBook(book.id)
-        store.addMessage(`Libro ${book.id} eliminado`)
     }
+}
+
+const editar = (id) => {
+    router.push({ name: 'edit-book', params: { id } })
 }
 </script>
 
@@ -20,7 +27,7 @@ const eliminar = (book) => {
                 <button class="btn-icon" disabled title="Próximamente">
                     <span class="material-icons">add_shopping_cart</span>
                 </button>
-                <button class="btn-icon" disabled title="Próximamente">
+                <button class="btn-icon" @click="editar(book.id)" title="Editar">
                     <span class="material-icons">edit</span>
                 </button>
                 <button class="btn-icon btn-delete" @click="eliminar(book)" title="Eliminar">

@@ -12,6 +12,8 @@ export const store = reactive({
     async fetchBooks() {
         try {
             this.books = await api.getDBBooks();
+            // Nuevo: Mensaje de éxito al cargar los datos
+            this.addMessage("Datos de libros actualizados", "success");
         } catch (error) {
             this.addMessage(error.message, 'error');
         }
@@ -20,6 +22,8 @@ export const store = reactive({
     async fetchModules() {
         try {
             this.modules = await api.getDBModules();
+            // Opcional: También podemos avisar de que los módulos han cargado
+            // this.addMessage("Módulos cargados", "success");
         } catch (error) {
             this.addMessage(error.message, 'error');
         }
@@ -27,13 +31,22 @@ export const store = reactive({
 
     async addBook(book) {
         try {
-            // Asigna imagen automática si no se proporciona (usando el mapa .jpg)
             if (!book.photo) {
                 book.photo = getModuleImage(book.moduleCode);
             }
             await api.addDBBook({ ...book });
-            await this.fetchBooks();
+            await this.fetchBooks(); // Esto ahora mostrará también "Datos de libros actualizados"
             this.addMessage("Libro añadido correctamente", "success");
+        } catch (error) {
+            this.addMessage(error.message, "error");
+        }
+    },
+
+    async updateBook(book) {
+        try {
+            await api.changeDBBook(book);
+            await this.fetchBooks();
+            this.addMessage("Libro modificado correctamente", "success");
         } catch (error) {
             this.addMessage(error.message, "error");
         }
@@ -80,36 +93,18 @@ export const store = reactive({
     }
 });
 
-// --- MAPEO DE IMÁGENES (Todo .jpg) ---
+// --- MAPEO DE IMÁGENES ---
 export function getModuleImage(moduleCode) {
     const map = {
-        // Formación y Orientación Laboral
         '0021': '9788448635015.jpg',
-        
-        // Administración de Sistemas Operativos
         '0374': '9788448626648.jpg', 
-
-        // Servicios de Red e Internet
         '0375': '9788448626655.jpg',
-
-        // Implantación de Aplicaciones Web
         '0376': '9788448626662.jpg',
-
-        // Seguridad y Alta Disponibilidad
         '0378': '9788448626686.jpg',
-        
-        // Desarrollo Web en Entorno Cliente
         '0612': '9788448632663.jpg',
-
-        // Análisis Bioquímico
         '1371': '9788448638719_1.jpg',
-
-        // Técnicas de Radiología Simple
         '1349': '9788448638900.jpg',
-
-        // Técnicas de Imagen en Medicina Nuclear
         '1353': '9788448638986.jpg'
     };
-    
     return map[moduleCode] || '../../public/logoBatoi.png'; 
 }

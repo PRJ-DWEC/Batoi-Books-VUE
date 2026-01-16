@@ -2265,11 +2265,22 @@
       "id": "f7d1",
       "moduleCode": "1349",
       "publisher": "hola",
-      "price": 10,
+      "price": 25,
       "pages": 10,
       "status": "good",
       "comments": "",
       "photo": ""
+    },
+    {
+      "id": "d9ba",
+      "moduleCode": "0375",
+      "publisher": "RAMA",
+      "price": 37.91,
+      "pages": 158,
+      "status": "new",
+      "comments": "Que bon llibre m'ha ajudat molt per a aprobar l'assignatura de Lluis",
+      "soldDate": "2019-02-16",
+      "photo": "9788448626655.jpg"
     }
   ]
 }
