@@ -106,5 +106,5 @@ export function getModuleImage(moduleCode) {
         '1349': '9788448638900.jpg',
         '1353': '9788448638986.jpg'
     };
-    return map[moduleCode] || '../../public/logoBatoi.png'; 
+    return map[moduleCode] || '../../public/logoBatoi.png' || 'logoBatoi.png'; 
 }
