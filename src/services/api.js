@@ -139,3 +139,18 @@ export async function removeDBUser(id) {
         throw new Error('Error al eliminar el usuario');
     }
 }
+
+export async function processCheckout(cart) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const total = cart.reduce((acc, book) => acc + Number(book.price), 0);            
+            const firstChar = total.toString().charAt(0);
+            
+            if (parseInt(firstChar) < 5) {
+                reject(new Error("La transacción ha fallado: El importe empieza por un número menor a 5."));
+            } else {
+                resolve("Compra realizada con éxito");
+            }
+        }, 1000); 
+    });
+}

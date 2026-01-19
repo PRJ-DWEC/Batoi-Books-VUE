@@ -60,6 +60,45 @@ export const store = reactive({
             this.addMessage(error.message, "error");
         }
     },
+    // --- GESTIÓN DEL CARRITO ---
+
+    saveCart() {
+        localStorage.setItem('batoi-cart', JSON.stringify(this.cart));
+    },
+
+    addToCart(book) {
+        // Evitar duplicados
+        if (!this.cart.find(b => b.id === book.id)) {
+            this.cart.push(book);
+            this.saveCart();
+            this.addMessage(`Libro "${book.id}" añadido al carrito`, "success");
+        }
+    },
+
+    removeFromCart(id) {
+        const index = this.cart.findIndex(b => b.id === id);
+        if (index !== -1) {
+            this.cart.splice(index, 1);
+            this.saveCart();
+            this.addMessage("Libro eliminado del carrito", "success");
+        }
+    },
+
+    clearCart() {
+        this.cart = [];
+        this.saveCart();
+    },
+
+    async checkout() {
+        try {
+            // Llamada a la API simulada
+            const response = await api.processCheckout(this.cart);
+            this.clearCart();
+            this.addMessage(response, "success");
+        } catch (error) {
+            this.addMessage(error.message, "error");
+        }
+    },
 
     // --- GESTIÓN DE MENSAJES ---
 
@@ -88,6 +127,13 @@ export const store = reactive({
 
     get importeTotal() {
         return this.books.reduce((acc, book) => acc + Number(book.price), 0).toFixed(2);
+    },
+    get cartTotalAmount() {
+        return this.cart.reduce((acc, book) => acc + Number(book.price), 0).toFixed(2);
+    },
+
+    get cartTotalItems() {
+        return this.cart.length;
     }
 });
 

@@ -17,13 +17,27 @@ const eliminar = (book) => {
 const editar = (id) => {
     router.push({ name: 'edit-book', params: { id } })
 }
+
+const addToCart = (book) => {
+    store.addToCart(book);
+}
+
+const isBookInCart = (id) => {
+    return store.cart.some(item => item.id === id);
+}
+
 </script>
 
 <template>
     <div class="books-grid-container">
         <BookItem v-for="book in store.books" :key="book.id" :book="book">
             <div class="actions">
-                <button class="btn-icon" disabled title="Próximamente">
+                <button 
+                    class="btn-icon" 
+                    :disabled="isBookInCart(book.id)" 
+                    @click="addToCart(book)" 
+                    title="Añadir al carrito"
+                >
                     <span class="material-icons">add_shopping_cart</span>
                 </button>
                 <button class="btn-icon" @click="editar(book.id)" title="Editar">

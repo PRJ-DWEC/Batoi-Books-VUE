@@ -2281,6 +2281,17 @@
       "comments": "Que bon llibre m'ha ajudat molt per a aprobar l'assignatura de Lluis",
       "soldDate": "2019-02-16",
       "photo": "9788448626655.jpg"
+    },
+    {
+      "id": "fd75",
+      "moduleCode": "0016",
+      "publisher": "Makaaaa",
+      "price": 500,
+      "pages": 2000,
+      "status": "new",
+      "comments": "",
+      "soldDate": "",
+      "photo": "../../public/logoBatoi.png"
     }
   ]
 }
