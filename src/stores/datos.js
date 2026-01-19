@@ -12,7 +12,6 @@ export const store = reactive({
     async fetchBooks() {
         try {
             this.books = await api.getDBBooks();
-            // Nuevo: Mensaje de éxito al cargar los datos
             this.addMessage("Datos de libros actualizados", "success");
         } catch (error) {
             this.addMessage(error.message, 'error');
@@ -22,8 +21,7 @@ export const store = reactive({
     async fetchModules() {
         try {
             this.modules = await api.getDBModules();
-            // Opcional: También podemos avisar de que los módulos han cargado
-            // this.addMessage("Módulos cargados", "success");
+            
         } catch (error) {
             this.addMessage(error.message, 'error');
         }
@@ -35,7 +33,7 @@ export const store = reactive({
                 book.photo = getModuleImage(book.moduleCode);
             }
             await api.addDBBook({ ...book });
-            await this.fetchBooks(); // Esto ahora mostrará también "Datos de libros actualizados"
+            await this.fetchBooks(); 
             this.addMessage("Libro añadido correctamente", "success");
         } catch (error) {
             this.addMessage(error.message, "error");

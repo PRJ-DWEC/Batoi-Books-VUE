@@ -7,7 +7,6 @@ import * as api from '../services/api.js'
 const route = useRoute()
 const router = useRouter()
 
-// Estructura inicial del libro
 const emptyBook = { 
     id: '', 
     moduleCode: '', 
@@ -21,7 +20,6 @@ const emptyBook = {
 
 const book = ref({ ...emptyBook })
 
-// Detectamos si estamos editando mirando si hay parámetros en la ruta
 const isEditing = computed(() => !!route.params.id)
 
 const loadBook = async () => {
@@ -52,7 +50,7 @@ onMounted(() => {
 })
 
 const procesar = async () => {
-    // Si añadimos, quitamos el ID para que la API lo genere
+   
     const bookToSend = { ...book.value }
     if (!isEditing.value) delete bookToSend.id;
 
@@ -66,9 +64,9 @@ const procesar = async () => {
 
 const resetForm = () => {
     if (isEditing.value) {
-        loadBook() // Restaurar datos originales
+        loadBook() 
     } else {
-        book.value = { ...emptyBook } // Limpiar formulario
+        book.value = { ...emptyBook } 
     }
 }
 </script>

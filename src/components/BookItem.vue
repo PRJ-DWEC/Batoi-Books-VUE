@@ -112,26 +112,23 @@ h3 {
 }
 
 .details p {
-    margin: 6px 0; /* Un poco más de espacio entre líneas */
+    margin: 6px 0; 
     font-size: 0.9rem;
     color: #4b5563;
 }
 
-/* Estilos para el estado de venta */
 .sales-status {
     padding: 2px 0;
 }
 .status-available {
-    color: #059669; /* Verde */
+    color: #059669; 
 }
 .status-sold {
-    color: #d97706; /* Naranja/Ámbar */
+    color: #d97706; 
     font-weight: 500;
 }
 
 .comments {
-    /* Quitamos el italic general para que "Comentarios:" se lea bien, 
-       pero podemos poner el texto en cursiva si quieres, o dejarlo normal */
     color: #6b7280;
     margin-top: 8px;
     font-size: 0.9rem;

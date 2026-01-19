@@ -6,7 +6,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const eliminar = (book) => {
-    // ... (Tu código de eliminar existente)
     const mod = store.getModuleByCode(book.moduleCode)
     const nombreModulo = mod ? mod.cliteral : 'Desconocido'
 
@@ -41,8 +40,6 @@ const editar = (id) => {
 <style scoped>
 .books-grid-container {
     display: grid;
-    /* Grid responsive: columnas de mínimo 300px.
-       En pantalla normal (1200px) caben 3 cómodamente. */
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
 }

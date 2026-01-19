@@ -3,8 +3,6 @@ import { onMounted } from 'vue'
 import { store } from './stores/datos.js'
 import AppMenu from './components/AppMenu.vue'
 import AppMessages from './components/AppMessages.vue'
-// Eliminamos la importación de AppAbout porque ya no va en el footer
-// import AppAbout from './components/AppAbout.vue' 
 import logo from '/logoBatoi.png' 
 
 onMounted(() => {
