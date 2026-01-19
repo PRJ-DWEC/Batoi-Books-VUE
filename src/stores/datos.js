@@ -80,36 +80,18 @@ export const store = reactive({
     }
 });
 
-// --- MAPEO DE IMÁGENES (Todo .jpg) ---
 export function getModuleImage(moduleCode) {
     const map = {
-        // Formación y Orientación Laboral
-        '0011': '9788448626648.jpg',
-        
-        // Administración de Sistemas Operativos
-        '0226': '9788448635015.jpg', 
-
-        // Servicios de Red e Internet
-        '0614': '9788448638986.jpg',
-
-        // Implantación de Aplicaciones Web
-        '0613': '9788448638900.jpg',
-
-        // Seguridad y Alta Disponibilidad
-        '0615': '9788448638719_1.jpg',
-        
-        // Desarrollo Web en Entorno Cliente
+        '0021': '9788448635015.jpg',
+        '0374': '9788448626648.jpg', 
+        '0375': '9788448626655.jpg',
+        '0376': '9788448626662.jpg',
+        '0378': '9788448626686.jpg',
         '0612': '9788448632663.jpg',
-
-        // Análisis Bioquímico
-        '5021': '9788448626655.jpg',
-
-        // Técnicas de Radiología Simple
-        '5025': '9788448626662.jpg',
-
-        // Técnicas de Imagen en Medicina Nuclear
-        '0222': '9788448626686.jpg'
+        '1371': '9788448638719_1.jpg',
+        '1349': '9788448638900.jpg',
+        '1353': '9788448638986.jpg'
     };
-    
-    return map[moduleCode] || ''; 
+    return map[moduleCode] || '../../public/logoBatoi.png' || 'logoBatoi.png'; 
+
 }
