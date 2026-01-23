@@ -1,5 +1,7 @@
 <script setup>
-import { store } from '../stores/datos.js'
+import { useDatosStore } from '../stores/datos.js' // 1. Importamos el hook
+
+const store = useDatosStore() // 2. Inicializamos
 </script>
 
 <template>
@@ -41,15 +43,13 @@ import { store } from '../stores/datos.js'
     color: white;
 }
 
-/* CLASE PARA ÉXITO (VERDE) */
 .message-card.success {
-    background-color: #27ae60; /* Verde bonito */
+    background-color: #27ae60; 
     border-left: 5px solid #1e8449;
 }
 
-/* CLASE PARA ERROR (ROJO) */
 .message-card.error {
-    background-color: #e74c3c; /* Rojo bonito */
+    background-color: #e74c3c; 
     border-left: 5px solid #c0392b;
 }
 
@@ -67,7 +67,6 @@ import { store } from '../stores/datos.js'
     color: white; 
 }
 
-/* Animación de entrada/salida */
 .fade-enter-active, .fade-leave-active { transition: opacity 0.5s, transform 0.3s; }
 .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateX(30px); }
 </style>

@@ -1,6 +1,8 @@
 <script setup>
-import { store } from '../stores/datos.js'
+import { useDatosStore } from '../stores/datos.js' // 1. Importamos el hook
 import BookItem from './BookItem.vue'
+
+const store = useDatosStore() // 2. Inicializamos el store
 
 const removeFromCart = (id) => {
     store.removeFromCart(id);

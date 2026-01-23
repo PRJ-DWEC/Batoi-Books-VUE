@@ -1,9 +1,12 @@
 <script setup>
 import { defineProps } from 'vue'
-import { store, getModuleImage } from '../stores/datos.js'
+import { useDatosStore, getModuleImage } from '../stores/datos.js'
 
 defineProps(['book'])
 
+const store = useDatosStore()
+
+// Usamos el getter de Pinia para obtener la descripción
 const getModuleLiteral = (code) => {
     const m = store.getModuleByCode(code)
     return m ? m.cliteral : code

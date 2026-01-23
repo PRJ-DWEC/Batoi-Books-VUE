@@ -1,9 +1,11 @@
 <script setup>
 import { onMounted } from 'vue'
-import { store } from './stores/datos.js'
+import { useDatosStore } from './stores/datos.js' 
 import AppMenu from './components/AppMenu.vue'
 import AppMessages from './components/AppMessages.vue'
 import logo from '/logoBatoi.png' 
+
+const store = useDatosStore() 
 
 onMounted(() => {
     store.fetchBooks()
@@ -41,7 +43,7 @@ onMounted(() => {
 body {
     margin: 0;
     font-family: 'Inter', 'Segoe UI', sans-serif;
-    background-color: #f8f9fa; /* Fondo gris muy claro elegante */
+    background-color: #f8f9fa;
     color: #333;
     line-height: 1.6;
 }
@@ -90,27 +92,13 @@ body {
     margin: 2rem auto;
     padding: 0 20px;
     width: 100%;
-    flex: 1; /* Empuja el footer abajo */
+    flex: 1; 
 }
 
 .content-area {
     display: flex;
     flex-direction: column;
     gap: 40px;
-}
-
-/* Totales */
-.totales-bar {
-    background-color: #2c3e50;
-    color: white;
-    padding: 1.5rem 2rem;
-    text-align: right;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: flex-end;
-    gap: 30px;
 }
 
 /* Footer */

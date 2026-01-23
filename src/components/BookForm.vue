@@ -1,11 +1,12 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import { store } from '../stores/datos.js'
+import { useDatosStore } from '../stores/datos.js'
 import { useRoute, useRouter } from 'vue-router'
 import * as api from '../services/api.js'
 
 const route = useRoute()
 const router = useRouter()
+const store = useDatosStore()
 
 const emptyBook = { 
     id: '', 
@@ -20,11 +21,13 @@ const emptyBook = {
 
 const book = ref({ ...emptyBook })
 
+// Propiedad computada para saber si estamos editando
 const isEditing = computed(() => !!route.params.id)
 
 const loadBook = async () => {
     if (isEditing.value) {
         const bookId = route.params.id
+        // Buscamos en el store primero
         let found = store.books.find(b => b.id == bookId)
         
         if (!found) {
@@ -37,21 +40,28 @@ const loadBook = async () => {
             }
         }
         book.value = { ...found }
+        // Aseguramos que el ID sea correcto (a veces viene como string/number)
         book.value.id = bookId 
     } else {
+        // Si no hay ID en la ruta, limpiamos el formulario
         book.value = { ...emptyBook }
     }
 }
 
-watch(() => route.params.id, loadBook)
+// WATCHER: Detecta si cambia el ID en la URL (ej: de /edit/1 a /add)
+watch(() => route.params.id, (newVal) => {
+    loadBook()
+})
 
-onMounted(() => {
+onMounted(async () => {
+    // Cargamos módulos si no están cargados (gestionado en el action del store)
+    await store.fetchModules()
     loadBook()
 })
 
 const procesar = async () => {
-   
     const bookToSend = { ...book.value }
+    // Si es nuevo, eliminamos el ID para que la API lo genere
     if (!isEditing.value) delete bookToSend.id;
 
     if (isEditing.value) {
@@ -63,11 +73,7 @@ const procesar = async () => {
 }
 
 const resetForm = () => {
-    if (isEditing.value) {
-        loadBook() 
-    } else {
-        book.value = { ...emptyBook } 
-    }
+    loadBook()
 }
 </script>
 
@@ -89,7 +95,9 @@ const resetForm = () => {
                     <label>Módulo</label>
                     <select v-model="book.moduleCode" required>
                         <option value="" disabled>- Seleccionar -</option>
-                        <option v-for="mod in store.modules" :key="mod.code" :value="mod.code">{{ mod.cliteral }}</option>
+                        <option v-for="mod in store.modules" :key="mod.code" :value="mod.code">
+                            {{ mod.cliteral }}
+                        </option>
                     </select>
                 </div>
                 

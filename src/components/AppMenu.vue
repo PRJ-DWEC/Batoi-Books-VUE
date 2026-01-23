@@ -1,3 +1,4 @@
+<script></script>
 <template>
     <nav>
         <ul>

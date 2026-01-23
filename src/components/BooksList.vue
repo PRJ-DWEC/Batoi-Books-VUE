@@ -1,11 +1,13 @@
 <script setup>
-import { store } from '../stores/datos.js'
+import { useDatosStore } from '../stores/datos.js' 
 import BookItem from './BookItem.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const store = useDatosStore() 
 
 const eliminar = (book) => {
+    
     const mod = store.getModuleByCode(book.moduleCode)
     const nombreModulo = mod ? mod.cliteral : 'Desconocido'
 
@@ -25,7 +27,6 @@ const addToCart = (book) => {
 const isBookInCart = (id) => {
     return store.cart.some(item => item.id === id);
 }
-
 </script>
 
 <template>
@@ -58,7 +59,7 @@ const isBookInCart = (id) => {
     gap: 30px;
 }
 
-/* Botones */
+
 .actions {
     margin-top: auto;
     padding-top: 15px;
@@ -70,7 +71,7 @@ const isBookInCart = (id) => {
 .btn-icon {
     width: 36px;
     height: 36px;
-    border-radius: 50%; /* Redondos */
+    border-radius: 50%;
     border: 1px solid #e0e0e0;
     background: white;
     cursor: pointer;
