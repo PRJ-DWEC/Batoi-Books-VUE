@@ -1,33 +1,92 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { onMounted, computed, watch } from 'vue'
 import { useDatosStore } from '../stores/datos.js'
 import { useRoute, useRouter } from 'vue-router'
 import * as api from '../services/api.js'
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
 
 const route = useRoute()
 const router = useRouter()
 const store = useDatosStore()
 
+
+const validationSchema = yup.object({
+    id: yup.string().nullable(),
+    
+  
+    moduleCode: yup.string()
+        .required('El módulo es obligatorio')
+        .test('is-unique', 'No puedes tener dos libros del mismo módulo', function (value) {
+        
+            if (!value) return true;
+
+            const existingBook = store.books.find(book => book.moduleCode === value);
+
+            if (!existingBook) return true;
+
+            
+            if (route.params.id && String(existingBook.id) === String(route.params.id)) {
+                return true; // Es el mismo libro, permitimos guardar
+            }
+
+   
+            return false;
+        }),
+
+    publisher: yup.string().required('La editorial es obligatoria'),
+    
+
+    price: yup.number()
+        .typeError('Debe ser un número')
+        .required('El precio es obligatorio')
+        .min(0, 'El precio debe ser mayor o igual a 0'),
+
+    pages: yup.number()
+        .typeError('Debe ser un número')
+        .required('Las páginas son obligatorias')
+        .min(0, 'Debe ser mayor o igual a 0')
+        .integer('Debe ser un número entero'),
+
+    status: yup.string().required('El estado es obligatorio'),
+    soldDate: yup.string().nullable(),
+    comments: yup.string().nullable()
+})
+
+
 const emptyBook = { 
     id: '', 
     moduleCode: '', 
     publisher: '', 
-    price: 0, 
-    pages: 0, 
+    price: null, 
+    pages: null, 
     status: 'good', 
     comments: '',
     soldDate: '' 
 }
 
-const book = ref({ ...emptyBook })
 
-// Propiedad computada para saber si estamos editando
+const { handleSubmit, errors, defineField, setValues, resetForm: resetVeeForm } = useForm({
+    validationSchema,
+    initialValues: emptyBook
+})
+
+
+const [id] = defineField('id')
+const [moduleCode] = defineField('moduleCode')
+const [publisher] = defineField('publisher')
+const [price] = defineField('price')
+const [pages] = defineField('pages')
+const [status] = defineField('status')
+const [comments] = defineField('comments')
+const [soldDate] = defineField('soldDate')
+
 const isEditing = computed(() => !!route.params.id)
 
 const loadBook = async () => {
     if (isEditing.value) {
         const bookId = route.params.id
-        // Buscamos en el store primero
+
         let found = store.books.find(b => b.id == bookId)
         
         if (!found) {
@@ -39,29 +98,28 @@ const loadBook = async () => {
                 return
             }
         }
-        book.value = { ...found }
-        // Aseguramos que el ID sea correcto (a veces viene como string/number)
-        book.value.id = bookId 
+        setValues({ ...found, id: bookId }) 
     } else {
-        // Si no hay ID en la ruta, limpiamos el formulario
-        book.value = { ...emptyBook }
+        resetVeeForm({ values: emptyBook })
     }
 }
 
-// WATCHER: Detecta si cambia el ID en la URL (ej: de /edit/1 a /add)
 watch(() => route.params.id, (newVal) => {
     loadBook()
 })
 
 onMounted(async () => {
-    // Cargamos módulos si no están cargados (gestionado en el action del store)
+
+    await store.fetchBooks()
     await store.fetchModules()
     loadBook()
 })
 
-const procesar = async () => {
-    const bookToSend = { ...book.value }
-    // Si es nuevo, eliminamos el ID para que la API lo genere
+
+const procesar = handleSubmit(async (values) => {
+    const bookToSend = { ...values }
+    
+    
     if (!isEditing.value) delete bookToSend.id;
 
     if (isEditing.value) {
@@ -70,7 +128,7 @@ const procesar = async () => {
         await store.addBook(bookToSend)
     }
     router.push('/')
-}
+})
 
 const resetForm = () => {
     loadBook()
@@ -86,58 +144,63 @@ const resetForm = () => {
                 
                 <div class="form-group" v-if="isEditing">
                     <label>ID del Libro</label>
-                    <input type="text" v-model="book.id" disabled class="input-disabled"/>
+                    <input type="text" v-model="id" disabled class="input-disabled"/>
                 </div>
 
                 <div class="form-group full-width" v-else></div>
 
                 <div class="form-group full-width">
                     <label>Módulo</label>
-                    <select v-model="book.moduleCode" required>
+                    <select v-model="moduleCode" :class="{ 'input-error': errors.moduleCode }">
                         <option value="" disabled>- Seleccionar -</option>
                         <option v-for="mod in store.modules" :key="mod.code" :value="mod.code">
                             {{ mod.cliteral }}
                         </option>
                     </select>
+                    <span class="error-msg" v-if="errors.moduleCode">{{ errors.moduleCode }}</span>
                 </div>
                 
                 <div class="form-group full-width">
                     <label>Editorial</label>
-                    <input type="text" v-model="book.publisher" required placeholder="Ej: McGraw Hill"/>
+                    <input type="text" v-model="publisher" placeholder="Ej: McGraw Hill" :class="{ 'input-error': errors.publisher }"/>
+                    <span class="error-msg" v-if="errors.publisher">{{ errors.publisher }}</span>
                 </div>
 
                 <div class="form-group">
                     <label>Precio (€)</label>
-                    <input type="number" step="0.01" v-model="book.price" required min="0"/>
+                    <input type="number" step="0.01" v-model="price" :class="{ 'input-error': errors.price }"/>
+                    <span class="error-msg" v-if="errors.price">{{ errors.price }}</span>
                 </div>
 
                 <div class="form-group">
                     <label>Páginas</label>
-                    <input type="number" v-model="book.pages" required min="1"/>
+                    <input type="number" v-model="pages" :class="{ 'input-error': errors.pages }"/>
+                    <span class="error-msg" v-if="errors.pages">{{ errors.pages }}</span>
                 </div>
 
                 <div class="form-group full-width">
                     <label>Estado</label>
                     <div class="radios">
-                        <label class="radio-label"><input type="radio" value="good" v-model="book.status"> Bueno</label>
-                        <label class="radio-label"><input type="radio" value="new" v-model="book.status"> Nuevo</label>
-                        <label class="radio-label"><input type="radio" value="bad" v-model="book.status"> Malo</label>
+                        <label class="radio-label"><input type="radio" value="good" v-model="status"> Bueno</label>
+                        <label class="radio-label"><input type="radio" value="new" v-model="status"> Nuevo</label>
+                        <label class="radio-label"><input type="radio" value="bad" v-model="status"> Malo</label>
                     </div>
+                    <span class="error-msg" v-if="errors.status">{{ errors.status }}</span>
                 </div>
 
                 <div class="form-group full-width">
                     <label>Fecha de venta</label>
                     <div class="date-container">
-                        <input type="date" v-model="book.soldDate" class="date-input">
-                        <span class="sold-message" :class="{ 'vendido': book.soldDate, 'no-vendido': !book.soldDate }">
-                            {{ book.soldDate ? `Libro vendido el ${book.soldDate}` : 'Aún no se ha vendido' }}
+                        <input type="date" v-model="soldDate" class="date-input">
+                        <span class="sold-message" :class="{ 'vendido': soldDate, 'no-vendido': !soldDate }">
+                            {{ soldDate ? `Libro vendido el ${soldDate}` : 'Aún no se ha vendido' }}
                         </span>
                     </div>
                 </div>
 
                 <div class="form-group full-width">
                     <label>Comentarios</label>
-                    <textarea v-model="book.comments" rows="3" placeholder="Opcional..."></textarea>
+                    <textarea v-model="comments" rows="3" placeholder="Opcional..."></textarea>
                 </div>
             </div>
 
@@ -182,6 +245,20 @@ input, select, textarea {
 }
 input:focus, select:focus, textarea:focus {
     outline: none; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+
+.input-error {
+    border-color: #ef4444;
+}
+
+
+.error-msg {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: block;
+    font-weight: 500;
 }
 
 .input-disabled {

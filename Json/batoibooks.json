@@ -2292,6 +2292,28 @@
       "comments": "",
       "soldDate": "",
       "photo": "../../public/logoBatoi.png"
+    },
+    {
+      "id": "c4d8",
+      "moduleCode": "0011",
+      "publisher": "San Jan Bosco ",
+      "price": 50,
+      "pages": 50,
+      "status": "good",
+      "comments": "",
+      "soldDate": "",
+      "photo": "../../logoBatoi.png"
+    },
+    {
+      "id": "47c9",
+      "moduleCode": "0011",
+      "publisher": "Miau",
+      "price": 50,
+      "pages": 5,
+      "status": "good",
+      "comments": "",
+      "soldDate": "",
+      "photo": "../../logoBatoi.png"
     }
   ]
 }
